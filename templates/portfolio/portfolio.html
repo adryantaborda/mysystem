@@ -1,0 +1,77 @@
+
+{% extends "base_dashboard.html" %}
+
+{% block title %}Order #{{ order.id }}{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About the Creator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 p-8">
+
+  <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-lg flex overflow-hidden border">
+    
+    <!-- Sidebar -->
+    <div class="w-1/3 bg-gray-900 text-white p-6 flex flex-col items-center justify-center">
+      <img src="/media/adryan.jpeg" alt="Creator Photo" class="w-32 h-32 rounded-full border-4 border-white shadow mb-4 object-cover">
+      <h2 class="text-xl font-semibold">Adryan Taborda</h2>
+      <p class="italic text-sm text-gray-300 text-center mt-3">"Build systems that outlive the hype."</p>
+    </div>
+
+    <!-- Main content -->
+    <div class="w-2/3 p-6 space-y-4">
+      <h1 class="text-2xl font-bold text-gray-800 mb-2">About the Creator</h1>
+
+      <p class="text-sm text-gray-600">
+        I'm a full-stack software engineer and systems integrator focused on building scalable digital solutions for internal operations, SaaS platforms, and technical automation. With strong execution in Django, HTMX, and modern infrastructure, I help small teams and businesses consolidate their systems with speed and clarity.
+      </p>
+
+      <div class="grid grid-cols-1 gap-3 text-sm text-gray-700">
+        <div class="flex items-center gap-2">
+          <i data-lucide="map-pin" class="w-4 h-4 text-gray-500"></i>
+          <span>Brazil (UTC-3)</span>
+        </div>
+        <div class="flex items-center gap-2">
+        <i data-lucide="mail" class="w-4 h-4 text-gray-500"></i>
+        <a href="mailto:contact@adryantaborda.com" class="text-blue-600 hover:underline">contact@adryantaborda.com</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="phone" class="w-4 h-4 text-gray-500"></i>
+          <a href="tel:+5521986891096" class="text-blue-600 hover:underline">+55 (47) 98927-5982</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="message-circle" class="w-4 h-4 text-gray-500"></i>
+          <a href="https://wa.me/5547989275982" target="_blank" class="text-green-600 hover:underline">Chat on WhatsApp</a>
+        </div>
+        <div class="flex items-center gap-2">
+            <i data-lucide="send" class="w-4 h-4 text-gray-500"></i>
+            <a href="https://t.me/adryantaborda" target="_blank" class="text-blue-500 hover:underline">Chat on Telegram</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="linkedin" class="w-4 h-4 text-gray-500"></i>
+          <a href="https://linkedin.com/in/adryantaborda" target="_blank" class="text-blue-600 hover:underline">linkedin.com/in/adryantaborda</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="globe" class="w-4 h-4 text-gray-500"></i>
+          <a href="https://adryantaborda.com" target="_blank" class="text-blue-600 hover:underline">adryantaborda.com</a>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <a href="{% url 'dashboard' %}" class="text-sm text-violet-700 hover:underline">← Back to dashboard</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>
+{% endblock %}

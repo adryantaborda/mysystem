@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Order #{{ order.id }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 p-6">
+
+<div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow space-y-4">
+    <h1 class="text-xl font-bold">Sign Service Order #{{ order.id }}</h1>
+
+    <form method="post" onsubmit="submitSignature(event)">
+        {% csrf_token %}
+        <label class="block mb-1 text-sm">Your Name (printed):</label>
+        <input type="text" name="signed_by" required class="border p-2 w-full rounded mb-4" />
+
+        <label class="block mb-1 text-sm">Draw your signature:</label>
+        <canvas id="signature-pad" class="border w-full rounded bg-gray-50" height="150"></canvas>
+
+        <input type="hidden" name="signature_data_url" id="signature-data-url">
+
+        <div class="flex items-center justify-between mt-4">
+            <button type="button" onclick="clearPad()" class="text-sm text-red-600 hover:underline">Clear</button>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+        </div>
+    </form>
+
+    <a href="{% url 'order_detail' order.id %}" class="text-sm text-blue-700 hover:underline">← Back</a>
+</div>
+
+<script>
+    const canvas = document.getElementById('signature-pad');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    canvas.addEventListener('mousedown', e => {
+        drawing = true;
+        ctx.beginPath();
+        ctx.moveTo(e.offsetX, e.offsetY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (drawing) {
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+        }
+    });
+
+    canvas.addEventListener('mouseup', () => drawing = false);
+    canvas.addEventListener('mouseout', () => drawing = false);
+
+    function clearPad() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function submitSignature(e) {
+        e.preventDefault();
+        const dataURL = canvas.toDataURL();
+        document.getElementById('signature-data-url').value = dataURL;
+        e.target.submit();
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard · Service Orders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900 min-h-screen">
+
+  <div class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-900 text-gray-100 flex flex-col justify-between">
+      <div>
+        <div class="p-6 border-b border-gray-700">
+          <h1 class="text-lg font-bold tracking-tight">MySystem</h1>
+          <p class="text-sm text-gray-400 mt-1">Internal Platform</p>
+        </div>
+        <nav class="px-4 py-6 space-y-2 text-sm font-medium">
+          <a href="{% url 'dashboard' %}" class="block px-3 py-2 rounded bg-violet-700 text-white">Dashboard</a>
+          <a href="{% url 'create_service_order' %}" class="block px-3 py-2 rounded hover:bg-gray-800">Create Order</a>
+          <a href="{% url 'reports' %}" class="block px-3 py-2 rounded hover:bg-gray-800">Reports</a>
+          <a href="{% url 'see_clients' %}" class="block px-3 py-2 rounded hover:bg-gray-800">Our Clients</a>
+          <a href="{% url 'my_profile' %}" class="block px-3 py-2 rounded hover:bg-gray-800">My Profile</a>
+          <a href="{% url 'portfolio' %}" class="block px-3 py-2 rounded hover:bg-gray-800">The Creator</a>
+        </nav>
+      </div>
+      <div class="p-4 text-xs text-gray-500 border-t border-gray-700">
+        Logged in as: {{ request.user.full_name }}<br />
+        <a href="{% url 'logout' %}" class="text-red-400 hover:underline">Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8 overflow-y-auto space-y-10">
+
+      <!-- Header -->
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-bold">Service Orders</h2>
+          <p class="text-sm text-gray-500">Manage field operations and orders</p>
+        </div>
+        
+      </div>
+
+      <!-- Real Orders -->
+      <section>
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Real Orders</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="orders-list">
+          {% for order in orders %}
+            <div class="bg-white rounded-xl shadow p-5 border border-gray-200 hover:shadow-md transition">
+              <div class="flex justify-between items-start mb-3">
+                <h4 class="text-md font-semibold text-gray-800">#{{ order.id }} · {{ order.client.name }}</h4>
+                <span class="text-xs px-2 py-1 rounded-full 
+                  {% if order.status == 'open' %} bg-yellow-100 text-yellow-700
+                  {% elif order.status == 'in_progress' %} bg-blue-100 text-blue-700
+                  {% elif order.status == 'finished' %} bg-green-100 text-green-700
+                  {% endif %} font-medium">
+                  {{ order.get_status_display }}
+                </span>
+              </div>
+              <p class="text-sm text-gray-600 mb-3">{{ order.description|truncatewords:20 }}</p>
+              <p class="text-xs text-gray-500 mb-2">
+                Assigned to:
+                {% if order.assigned_to %}
+                  {{ order.assigned_to.full_name }}
+                {% else %}
+                  <span class="italic text-gray-400">Unassigned</span>
+                {% endif %}
+              </p>
+              <a href="{% url 'order_detail' order.id %}" class="text-sm text-violet-700 hover:underline font-medium">
+                View details →
+              </a>
+            </div>
+          {% empty %}
+            <p class="text-sm text-gray-400">No service orders found.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- Demo Session Orders -->
+      {% if demo_orders %}
+      <section>
+        <h3 class="text-lg font-semibold text-gray-800 mt-10 mb-2">Demo Session Orders</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {% for order in demo_orders %}
+          <div class="bg-gray-50 rounded-xl p-4 border border-dashed border-gray-300">
+            <h4 class="text-md font-semibold text-gray-700">Demo - {{ order.client }}</h4>
+            <p class="text-sm text-gray-600 mt-1">{{ order.description|truncatewords:20 }}</p>
+            <p class="text-xs text-gray-400 mt-2">Created at: {{ order.created_at|date:"F j, Y H:i" }}</p>
+            <p class="text-xs italic text-gray-400 mt-1">Session-only (not saved)</p>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+    </main>
+  </div>
+</body>
+</html>

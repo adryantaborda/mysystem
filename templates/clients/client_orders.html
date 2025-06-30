@@ -1,0 +1,59 @@
+
+{% extends "base_dashboard.html" %}
+
+{% block title %}Order #{{ order.id }}{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Orders for {{ client.name }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 p-6">
+
+  <div class="max-w-5xl mx-auto bg-white p-6 rounded-xl shadow border">
+    <h1 class="text-2xl font-bold mb-4">Orders for {{ client.name }}</h1>
+    <p class="text-sm text-gray-500 mb-6">{{ client.email }} — {{ client.phone }}</p>
+
+    {% if orders %}
+    <table class="w-full text-sm text-left text-gray-600">
+      <thead class="text-xs uppercase bg-gray-50 text-gray-700">
+        <tr>
+          <th class="px-4 py-3">#ID</th>
+          <th class="px-4 py-3">Description</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr class="border-b hover:bg-gray-50">
+          <td class="px-4 py-3 font-medium text-gray-900"><a href="{% url 'order_detail' order.id %}">#{{ order.id }}</a></td>
+          <td class="px-4 py-3">{{ order.description|truncatewords:10 }}</td>
+          <td class="px-4 py-3">
+            <span class="text-xs px-2 py-1 rounded-full
+              {% if order.status == 'open' %} bg-yellow-100 text-yellow-700
+              {% elif order.status == 'in_progress' %} bg-blue-100 text-blue-700
+              {% elif order.status == 'finished' %} bg-green-100 text-green-700
+              {% endif %}">
+              {{ order.get_status_display }}
+            </span>
+          </td>
+          <td class="px-4 py-3">{{ order.created_at|date:"Y-m-d" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="text-sm text-gray-500 italic">This client has no service orders yet.</p>
+    {% endif %}
+
+    <div class="mt-6">
+      <a href="{% url 'see_clients' %}" class="text-sm text-blue-700 hover:underline">← Back to Clients</a>
+    </div>
+  </div>
+
+</body>
+</html>
+{% endblock %}

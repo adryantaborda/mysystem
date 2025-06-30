@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Dashboard{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen">
+
+  <div class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-900 text-gray-100 flex flex-col justify-between">
+      <div>
+        <div class="p-6 border-b border-gray-700">
+          <h1 class="text-lg font-bold tracking-tight">MySystem</h1>
+          <p class="text-sm text-gray-400 mt-1">Internal Platform</p>
+        </div>
+        <nav class="px-4 py-6 space-y-2 text-sm font-medium">
+          <a href="{% url 'dashboard' %}" class="block px-3 py-2 rounded bg-violet-700 text-white">Dashboard</a>
+          <a href="{% url 'create_service_order' %}" class="block px-3 py-2 rounded hover:bg-gray-800">Create Order</a>
+          <a href="{% url 'reports' %}" class="block px-3 py-2 rounded hover:bg-gray-800">Reports</a>
+          <a href="{% url 'see_clients' %}" class="block px-3 py-2 rounded hover:bg-gray-800">Our Clients</a>
+          <a href="{% url 'my_profile' %}" class="block px-3 py-2 rounded hover:bg-gray-800">My Profile</a>
+          <a href="{% url 'portfolio' %}" class="block px-3 py-2 rounded hover:bg-gray-800">The Creator</a>
+        </nav>
+      </div>
+      <div class="p-4 text-xs text-gray-500 border-t border-gray-700">
+        Logged in as: {{ request.user.full_name }}<br />
+        <a href="{% url 'logout' %}" class="text-red-400 hover:underline">Logout</a>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 p-8 overflow-y-auto">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+</body>
+</html>
