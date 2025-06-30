@@ -83,7 +83,7 @@ TEMPLATES = [
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/opt/render/project/src/mysystem/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
