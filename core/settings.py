@@ -20,14 +20,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-62d*ap3u_&qb!rrr)fp!&5=yd0$0@1(ca6p8fl2f2rz7r&nyiy'
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'insecure-fallback-key')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 import os
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["your-service-name.onrender.com"]
+ALLOWED_HOSTS = ["mysystem-vmln.onrender.com"]
 
 DATABASES = {
     'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
