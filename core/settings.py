@@ -31,13 +31,11 @@ import os
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["mysystem-vmln.onrender.com"]
+ALLOWED_HOSTS = ["mysystem-vmln.onrender.com","127.0.0.1","localhost"]
 
 DATABASES = {
     'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
 }
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
