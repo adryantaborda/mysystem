@@ -2,3 +2,4 @@ Django>=5.0,<6.0
 weasyprint>=60.0
 Pillow>=10.0.0
 gunicorn>=21.0.1
+dj-database-url>=1.0.0
